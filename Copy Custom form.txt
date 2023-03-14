@@ -1,0 +1,30 @@
+declare @sourceCode nvarchar(50)
+declare @targetCode nvarchar(50)
+declare @targetUserID nvarchar(50)
+declare @targetDocEntry int
+
+select @targetDocEntry = max(docentry) + 1 from [@FT_CFS]
+
+set @sourceCode = '001' -- set what is the Code that you want to copy from
+set @targetCode = '005' -- set what is the new Code that you want to add
+set @targetUserID = 'HHANG' -- set what is the user ID
+
+insert into [@FT_CFS]
+( Code, DocEntry, Canceled, Object, Transfered, UpdateDate, UpdateTime, DataSource, U_FNAME, U_USRID, U_MATRIX, U_DSNAME)
+select @targetCode, @targetDocEntry, Canceled, Object, Transfered, GETDATE(), UpdateTime, DataSource, U_FNAME, @targetUserID, U_MATRIX, U_DSNAME
+from [@FT_CFS]
+where Code = @sourceCode
+
+insert into [@FT_CFSDL]
+( Code, LineId, Object, U_CNAME, U_NONEDIT, U_NONVIEW )
+select @targetCode, LineId, Object, U_CNAME, U_NONEDIT, U_NONVIEW
+from [@FT_CFSDL]
+where Code = @sourceCode
+
+
+
+declare @docentry int
+select @docentry = max(docentry) from [@FT_CFS]
+
+update ONNM set AutoKey = @docentry + 1 where ObjectCode = 'FT_CFS'
+

@@ -1,0 +1,82 @@
+USE [AYSH]
+GO
+/****** Object:  StoredProcedure [dbo].[FT_Update_Approval]    Script Date: 4/28/2018 2:15:05 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER proc [dbo].[FT_Update_Approval]
+
+@SourceTable nvarchar(50),
+@docentry int,
+@TargetTable nvarchar(50),
+@app nvarchar(50)
+
+
+AS
+
+begin
+
+if @SourceTable = 'ORDR' and @TargetTable = 'FT_TPPLAN'
+begin
+	declare @cnt17 int
+	declare @cnt13 int
+	select @cnt17 = 0, @cnt13 = 0;
+
+		select @cnt17 = count(*)
+		from ORDR T0 inner join
+		(
+		select T01.U_SOBASEOB, T01.U_SOENTRY
+		from [@FT_TPPLAN] T00 inner join [@FT_TPPLAN1] T01 on T01.DocEntry = T00.DocEntry 
+		where T00.Status = 'O' and T01.U_SOBASEOB = 17 and T00.U_RELEASE = 'Y'
+		group by T01.U_SOBASEOB, T01.U_SOENTRY
+		) T9 on T9.U_SOENTRY = T0.DocEntry and T9.U_SOBASEOB = T0.ObjType and T0.U_APP not in ('Y', 'O')
+		where T0.DocEntry = @docentry
+
+
+		select @cnt13 = count(*)
+		from ORDR T0 inner join
+		(
+		select T011.BaseType as U_SOBASEOB, T011.BaseEntry as U_SOENTRY
+		from [@FT_TPPLAN] T00 inner join [@FT_TPPLAN1] T01 on T01.DocEntry = T00.DocEntry
+		inner join OINV T010 on T01.U_SOBASEOB = T010.ObjType and T01.U_SOENTRY = T010.DocEntry
+		inner join INV1 T011 on T010.DocEntry = T011.DocEntry
+		where T00.Status = 'O' and T01.U_SOBASEOB = 13 and T00.U_RELEASE = 'Y'
+		group by T011.BaseType, T011.BaseEntry
+		) T9 on T9.U_SOENTRY = T0.DocEntry and T9.U_SOBASEOB = T0.ObjType and T0.U_APP not in ('Y', 'O')
+		where T0.DocEntry = @docentry
+
+		declare @appstatus nvarchar(1)
+		select @appstatus = @app
+		if @cnt13 + @cnt17 = 0
+		begin
+			set @appstatus = 'Y'
+		end
+
+		update T0
+		set T0.U_APP = @appstatus
+		from [@FT_TPPLAN] T0 inner join
+		(
+		select T00.DocEntry as DocEntry
+		from [@FT_TPPLAN] T00 inner join [@FT_TPPLAN1] T01 on T01.DocEntry = T00.DocEntry 
+		inner join ORDR T09 on T01.U_SOBASEOB = T09.ObjType and T01.U_SOENTRY = T09.DocEntry and T09.DocEntry = @docentry
+		where T00.Status = 'O' and T01.U_SOBASEOB = 17
+		group by T00.DocEntry
+		) T9 on T0.DocEntry = T9.DocEntry and T0.U_RELEASE = 'Y'
+
+		update T0
+		set T0.U_APP = @appstatus
+		from [@FT_TPPLAN] T0 inner join
+		(
+		select T00.DocEntry as DocEntry
+		from [@FT_TPPLAN] T00 inner join [@FT_TPPLAN1] T01 on T01.DocEntry = T00.DocEntry 
+		inner join OINV T10 on T01.U_SOBASEOB = T10.ObjType and T01.U_SOENTRY = T10.DocEntry
+		inner join INV1 T11 on T11.DocEntry = T10.DocEntry and T11.BaseType = 17 and T11.BaseEntry = @docentry
+		where T00.Status = 'O' and T01.U_SOBASEOB = 13
+		group by T00.DocEntry
+		) T9 on T0.DocEntry = T9.DocEntry and T0.U_RELEASE = 'Y'
+
+end
+	
+end
+

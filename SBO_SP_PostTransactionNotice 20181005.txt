@@ -1,0 +1,17 @@
+-- sales invoice
+if @object_type = '13'
+begin
+	IF @transaction_type = 'A'
+	begin
+		update T0
+		set U_SPLANQTY = 0
+		from INV1 T0 inner join OINV T1 on T0.DocEntry = T1.DocEntry and T1.isIns = 'Y'
+		where T0.DocEntry = @list_of_cols_val_tab_del
+
+		update T0
+		set U_InvCost = T2.avgprice
+		from INV1 T0 inner join OINV T1 on T0.DocEntry = T1.DocEntry
+		inner join OITM T2 on T0.ItemCode = T2.ItemCode
+		where T0.DocEntry = @list_of_cols_val_tab_del
+	end
+end

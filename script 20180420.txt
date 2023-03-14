@@ -1,0 +1,67 @@
+update ordr set U_APP = 'O', U_DSAPP = 'O'
+
+update [@FT_TPPLAN] set U_APP = 'O', U_RELEASE = 'Y'
+
+
+
+
+	if @transaction_type = 'A' or @transaction_type = 'U'
+	begin
+		update T0
+		set U_APP = case when U_APP = 'O' then 'W' else U_APP end
+		from ORDR T0 inner join
+		(
+		select T01.U_SOBASEOB, T01.U_SOENTRY
+		from [@FT_TPPLAN] T00 inner join [@FT_TPPLAN1] T01 on T01.DocEntry = T00.DocEntry 
+		where T00.U_APP = 'W' and T00.Status = 'O' and T01.U_SOBASEOB = 17 and T00.U_RELEASE = 'Y'
+		and T00.DocEntry = @list_of_cols_val_tab_del 
+		group by T01.U_SOBASEOB, T01.U_SOENTRY
+		) T9 on T9.U_SOENTRY = T0.DocEntry and T9.U_SOBASEOB = T0.ObjType
+
+		update T0
+		set U_APP = case when U_APP = 'O' then 'W' else U_APP end
+		from ORDR T0 inner join
+		(
+		select T011.BaseType as U_SOBASEOB, T011.BaseEntry as U_SOENTRY
+		from [@FT_TPPLAN] T00 inner join [@FT_TPPLAN1] T01 on T01.DocEntry = T00.DocEntry
+		inner join OINV T010 on T01.U_SOBASEOB = T010.ObjType and T01.U_SOENTRY = T010.DocEntry
+		inner join INV1 T011 on T010.DocEntry = T011.DocEntry
+		where T00.U_APP = 'W' and T00.Status = 'O' and T01.U_SOBASEOB = 13 and T00.U_RELEASE = 'Y'
+		and T00.DocEntry = @list_of_cols_val_tab_del 
+		group by T011.BaseType, T011.BaseEntry
+		) T9 on T9.U_SOENTRY = T0.DocEntry and T9.U_SOBASEOB = T0.ObjType
+
+		declare @cnt17 int
+		declare @cnt13 int
+		select @cnt17 = 0, @cnt13 = 0;
+
+		select @cnt17 = count(*)
+		from ORDR T0 inner join
+		(
+		select T01.U_SOBASEOB, T01.U_SOENTRY
+		from [@FT_TPPLAN] T00 inner join [@FT_TPPLAN1] T01 on T01.DocEntry = T00.DocEntry 
+		where T00.U_APP = 'W' and T00.Status = 'O' and T01.U_SOBASEOB = 17 and T00.U_RELEASE = 'Y'
+		and T00.DocEntry = @list_of_cols_val_tab_del 
+		group by T01.U_SOBASEOB, T01.U_SOENTRY
+		) T9 on T9.U_SOENTRY = T0.DocEntry and T9.U_SOBASEOB = T0.ObjType and T0.U_APP not in ('Y', 'O')
+
+
+		select @cnt13 = count(*)
+		from ORDR T0 inner join
+		(
+		select T011.BaseType as U_SOBASEOB, T011.BaseEntry as U_SOENTRY
+		from [@FT_TPPLAN] T00 inner join [@FT_TPPLAN1] T01 on T01.DocEntry = T00.DocEntry
+		inner join OINV T010 on T01.U_SOBASEOB = T010.ObjType and T01.U_SOENTRY = T010.DocEntry
+		inner join INV1 T011 on T010.DocEntry = T011.DocEntry
+		where T00.U_APP = 'W' and T00.Status = 'O' and T01.U_SOBASEOB = 13 and T00.U_RELEASE = 'Y'
+		and T00.DocEntry = @list_of_cols_val_tab_del 
+		group by T011.BaseType, T011.BaseEntry
+		) T9 on T9.U_SOENTRY = T0.DocEntry and T9.U_SOBASEOB = T0.ObjType and T0.U_APP not in ('Y', 'O')
+
+		if @cnt13 + @cnt17 = 0
+		begin
+			update [@FT_TPPLAN]
+			set U_APP = 'Y'
+			where U_APP = 'W' and Status = 'O' and DocEntry = @list_of_cols_val_tab_del
+		end
+	end

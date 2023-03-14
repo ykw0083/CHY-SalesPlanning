@@ -1,0 +1,50 @@
+--delete from [@FT_SPCFSQL]
+
+declare @sql nvarchar(max)
+set @sql = 'select T1.CardCode as U_CARDCODE, T1.CardName as U_CARDNAME, T1.DocNum as U_SODOCNUM, T1.DocDate as U_SODATE, T0.itemcode as U_SOITEMCO, T0.Dscription as U_SOITEMNA,T0.WHSCODE AS [U_SOWHSCOD], T0.itemcode as U_ITEMCODE, T0.Dscription as U_ITEMNAME, T0.UomCode as U_UOM, T0.WhsCode as U_WHSCODE, T0.FisrtBin as U_BIN, T0.OpenQty - isnull(T0.U_SPLANQTY,0) as U_SOQTY,T0.OpenQty - isnull(T0.U_SPLANQTY,0) as U_QUANTITY, T0.DocEntry as U_SOENTRY, T0.LineNum as U_SOLINE, T0.ObjType as U_BASEOBJ, T0.DocEntry as U_BASEENT, T0.LineNum as U_BASELINE from RDR1 T0 inner join ORDR T1 on T0.docentry = T1.docentry where T0.OpenQty > isnull(T0.U_SPLANQTY,0) and T1.U_SPLAN = $[Y]'
+insert into [@FT_SPCFSQL]
+( Code, Name, U_UDO, U_Header, U_HColumn, U_Btn, U_BtnName, U_BtnSQL )
+values
+( '001', 'Sales Planning 1', 'FT_SPLAN', 'N', '', 'CF_ORDR', 'Sales Order', @sql )
+
+set @sql = 'select T1.CardCode as U_CARDCODE, T1.CardName as U_CARDNAME, T1.DocNum as U_SODOCNUM, T1.DocDate as U_SODATE, T0.itemcode as U_SOITEMCO, T0.Dscription as U_SOITEMNA, T0.itemcode as U_ITEMCODE, T0.Dscription as U_ITEMNAME, T1.WHSCODE AS [U_SOWHSCOD],T0.UomCode as U_UOM, T0.WhsCode as U_WHSCODE, T0.FisrtBin as U_BIN, T0.OpenQty - isnull(T0.U_SPLANQTY,0) as U_SOQTY, T0.DocEntry as U_SOENTRY, T0.LineNum as U_SOLINE, T0.ObjType as U_BASEOBJ, T0.DocEntry as U_BASEENT, T0.LineNum as U_BASELINE from DPI1 T0 inner join ODPI T1 on T0.docentry = T1.docentry where T0.OpenQty > isnull(T0.U_SPLANQTY,0) and T1.U_SPLAN = $[Y]'
+insert into [@FT_SPCFSQL]
+( Code, Name, U_UDO, U_Header, U_HColumn, U_Btn, U_BtnName, U_BtnSQL )
+values
+( '002', 'Sales Planning 2', 'FT_SPLAN', 'N', '', 'CF_ODPI', 'Down Payment Invoice', @sql )
+
+set @sql = 'select T0.U_CARDCODE, T0.U_CARDNAME, T0.U_SODOCNUM, T0.U_SODATE, T0.U_SOITEMCO, T0.U_SOITEMNA, T0.U_SOWHSCOD AS [U_SOWHSCOD],T0.U_ITEMCODE, T0.U_ITEMNAME, T0.U_UOM, T0.U_WHSCODE, T0.U_BIN, T0.U_QUANTITY - isnull(T0.U_TPQTY,0) as U_SOQTY, T0.U_QUANTITY  AS U_QUANTITY,T0.U_SOENTRY, T0.U_SOLINE, $[SPLAN] as U_BASEOBJ, T0.DocEntry as U_BASEENT, T0.LineId as U_BASELINE from [@FT_SPLAN1] T0 inner join [@FT_SPLAN] T1 on T0.docentry = T1.docentry where T0.U_QUANTITY > T0.U_TPQTY and T1.Status = $[O] and T0.U_CARDCODE = $[@FT_TPPLAN.U_CARDCODE]'
+insert into [@FT_SPCFSQL]
+( Code, Name, U_UDO, U_Header, U_HColumn, U_Btn, U_BtnName, U_BtnSQL )
+values
+( '003', 'Transport Planning', 'FT_TPPLAN', 'N', '', 'CF_SPLAN', 'Sales Planning', @sql )
+
+set @sql = 'select T0.U_CARDCODE, T0.U_CARDNAME, T0.U_SODOCNUM, T0.U_SODATE, T0.U_SOITEMCO, T0.U_SOITEMNA, T0.U_SOWHSCOD AS [U_SOWHSCOD],T0.U_ITEMCODE, T0.U_ITEMNAME, T0.U_UOM, T0.U_WHSCODE, T0.U_BIN, T0.U_QUANTITY - isnull(T0.U_CMQTY,0) as U_SOQTY,T0.U_QUANTITY  AS U_QUANTITY, T0.U_SOENTRY, T0.U_SOLINE, $[TPPLAN] as U_BASEOBJ, T0.DocEntry as U_BASEENT, T0.LineId as U_BASELINE from [@FT_TPPLAN1] T0 inner join [@FT_TPPLAN] T1 on T0.docentry = T1.docentry where T0.U_QUANTITY > T0.U_CMQTY and T1.Status = $[O] and T0.U_CARDCODE = $[@FT_CHARGE.U_CARDCODE] '--and T1.DocNum = $[@FT_CHARGE.U_TPDOCNUM]'
+insert into [@FT_SPCFSQL]
+( Code, Name, U_UDO, U_Header, U_HColumn, U_Btn, U_BtnName, U_BtnSQL )
+values
+( '004', 'Charge Module', 'FT_CHARGE', 'N', '', 'CF_TPPLAN', 'Transport Planning', @sql )
+
+
+
+set @sql = 'select T1.U_CARDCODE, T1.U_CARDNAME, T1.DocNum as U_TPDOCNUM, T1.U_DODATE, T1.U_TPCODE, T1.U_LORRY, T1.U_DRIVER, T1.U_DRIVERIC, T1.U_AREA, T1.U_BILLCUST from [@FT_TPPLAN1] T0 inner join [@FT_TPPLAN] T1 on T0.docentry = T1.docentry where T0.U_QUANTITY > T0.U_CMQTY and T1.Status = $[O] and (($[@FT_CHARGE.U_TPDOCNUM] > 0 and T1.DocNum = $[@FT_CHARGE.U_TPDOCNUM]) or $[@FT_CHARGE.U_TPDOCNUM] = 0) group by T1.U_CARDCODE, T1.U_CARDNAME, T1.DocNum, T1.U_DODATE, T1.U_TPCODE, T1.U_LORRY, T1.U_DRIVER, T1.U_DRIVERIC, T1.U_AREA, T1.U_BILLCUST'
+insert into [@FT_SPCFSQL]
+( Code, Name, U_UDO, U_Header, U_HColumn, U_Btn, U_BtnName, U_BtnSQL )
+values
+( '005', 'Charge Module Hdr', 'FT_CHARGE', 'Y', 'U_TPDOCNUM', 'C_TPDOCNUM', 'Copy Transport Header', @sql )
+
+
+
+set @sql = 'select T0.U_CARDCODE, T0.U_CARDNAME, T0.U_SODOCNUM, T0.U_SODATE, T0.U_SOITEMCO, T0.U_SOITEMNA, T0.U_ITEMCODE, T0.U_ITEMNAME, T0.U_UOM, T0.U_WHSCODE, T0.U_BIN, T0.U_QUANTITY - isnull(T0.U_CMQTY,0) as U_SOQTY, isnull(T9.U_Weight_Kg_pcs,0) as U_WEIGHT, T0.U_SOENTRY, T0.U_SOLINE, $[TPPLAN] as U_BASEOBJ, T0.DocEntry as U_BASEENT, T0.LineId as U_BASELINE from [@FT_TPPLAN1] T0 inner join [@FT_TPPLAN] T1 on T0.docentry = T1.docentry inner join OITM T9 on T0.U_ITEMCODE = T9.ItemCode where T0.U_QUANTITY > T0.U_CMQTY and T1.Status = $[O] and T0.U_CARDCODE = $[@FT_CHARGE.U_CARDCODE] and T1.DocNum = $[@FT_CHARGE.U_TPDOCNUM]'
+update [@FT_SPCFSQL]
+set U_BtnSQL = @sql 
+where code = '004'
+
+
+
+set @sql = 'select T1.U_CARDCODE, T1.U_CARDNAME, T1.DocNum as U_TPDOCNUM, T1.U_DODATE, T1.U_TPCODE, T1.U_LORRY, T1.U_DRIVER, T1.U_DRIVERIC, T1.U_AREA, T9.U_Price_MT as U_APRICE, T1.U_BILLCUST from [@FT_TPPLAN1] T0 inner join [@FT_TPPLAN] T1 on T0.docentry = T1.docentry inner join [@TRANSPORT_CHARGES] T9 on T9.Code = T1.U_AREA where T0.U_QUANTITY > T0.U_CMQTY and T1.Status = $[O] and (($[@FT_CHARGE.U_TPDOCNUM] > 0 and T1.DocNum = $[@FT_CHARGE.U_TPDOCNUM]) or $[@FT_CHARGE.U_TPDOCNUM] = 0) group by T1.U_CARDCODE, T1.U_CARDNAME, T1.DocNum, T1.U_DODATE, T1.U_TPCODE, T1.U_LORRY, T1.U_DRIVER, T1.U_DRIVERIC, T1.U_AREA, T9.U_Price_MT, T1.U_BILLCUST'
+insert into [@FT_SPCFSQL]
+( Code, Name, U_UDO, U_Header, U_HColumn, U_Btn, U_BtnName, U_BtnSQL )
+values
+( '005', 'Charge Module Hdr', 'FT_CHARGE', 'Y', 'U_TPDOCNUM', 'C_TPDOCNUM', 'Copy Transport Header', @sql )
+

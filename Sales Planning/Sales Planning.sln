@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sales Planning", "Sales Planning.csproj", "{AC7B7894-C50A-486F-980E-A7386FF2C638}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "AYSAddonInstaller", "..\AYSAddonInstaller\AYSAddonInstaller\AYSAddonInstaller\AYSAddonInstaller.vbproj", "{B30CD76C-0AAA-4A62-A8CE-E1C4134341D1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AC7B7894-C50A-486F-980E-A7386FF2C638}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC7B7894-C50A-486F-980E-A7386FF2C638}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC7B7894-C50A-486F-980E-A7386FF2C638}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC7B7894-C50A-486F-980E-A7386FF2C638}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B30CD76C-0AAA-4A62-A8CE-E1C4134341D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B30CD76C-0AAA-4A62-A8CE-E1C4134341D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B30CD76C-0AAA-4A62-A8CE-E1C4134341D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B30CD76C-0AAA-4A62-A8CE-E1C4134341D1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

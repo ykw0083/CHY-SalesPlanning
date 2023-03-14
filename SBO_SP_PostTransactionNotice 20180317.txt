@@ -1,0 +1,206 @@
+USE [AYS_A]
+GO
+/****** Object:  StoredProcedure [dbo].[SBO_SP_PostTransactionNotice]    Script Date: 17/03/2018 7:42:54 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER proc [dbo].[SBO_SP_PostTransactionNotice]
+
+@object_type nvarchar(30), 				-- SBO Object Type
+@transaction_type nchar(1),			-- [A]dd, [U]pdate, [D]elete, [C]ancel, C[L]ose
+@num_of_cols_in_key int,
+@list_of_key_cols_tab_del nvarchar(255),
+@list_of_cols_val_tab_del nvarchar(255)
+
+AS
+
+begin
+
+-- Return values
+declare @error  int				-- Result (0 for no error)
+declare @error_message nvarchar (200) 		-- Error string to be displayed
+select @error = 0
+select @error_message = N'Ok'
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+--	ADD	YOUR	CODE	HERE
+-- sales order
+if @object_type = '17'
+begin
+	IF @transaction_type = 'A'
+	begin
+		update T0
+		set U_SPLANQTY = 0
+		from RDR1 T0 inner join ORDR T1 on T0.DocEntry = T1.DocEntry
+		where T0.DocEntry = @list_of_cols_val_tab_del
+	end
+end
+
+-- sales invoice
+if @object_type = '13'
+begin
+	IF @transaction_type = 'A'
+	begin
+		update T0
+		set U_SPLANQTY = 0
+		from INV1 T0 inner join OINV T1 on T0.DocEntry = T1.DocEntry and T1.isIns = 'Y'
+		where T0.DocEntry = @list_of_cols_val_tab_del
+	end
+end
+
+-- sales planning
+declare @lastinst int
+
+if @object_type = 'FT_SPLAN'
+begin
+	IF @transaction_type in ('A', 'U')
+	begin
+		update T0
+		set U_SPLANQTY = isnull(U_SPLANQTY,0) + T1.U_QUANTITY
+		from RDR1 T0 inner join (select sum(T01.U_QUANTITY) as U_QUANTITY, sum(T01.U_ORIQTY) as U_ORIQTY, T01.DocEntry, T01.U_BASEENT, T01.U_BASELINE, T01.U_BASEOBJ from [@FT_SPLAN1] T01 group by T01.DocEntry, T01.U_BASEENT, T01.U_BASELINE, T01.U_BASEOBJ) T1 
+		on T0.DocEntry = T1.U_BASEENT and T0.LineNum = T1.U_BASELINE and T0.ObjType = T1.U_BASEOBJ
+		inner join [@FT_SPLAN] T2 on T1.DocEntry = T2.DocEntry
+		where T2.DocEntry = @list_of_cols_val_tab_del
+
+		update T0
+		set U_SPLANQTY = isnull(U_SPLANQTY,0) + T1.U_QUANTITY
+		from INV1 T0 inner join (select sum(T01.U_QUANTITY) as U_QUANTITY, sum(T01.U_ORIQTY) as U_ORIQTY, T01.DocEntry, T01.U_BASEENT, T01.U_BASELINE, T01.U_BASEOBJ from [@FT_SPLAN1] T01 group by T01.DocEntry, T01.U_BASEENT, T01.U_BASELINE, T01.U_BASEOBJ) T1 
+		on T0.DocEntry = T1.U_BASEENT and T0.LineNum = T1.U_BASELINE and T0.ObjType = T1.U_BASEOBJ
+		inner join [@FT_SPLAN] T2 on T1.DocEntry = T2.DocEntry
+		where T2.DocEntry = @list_of_cols_val_tab_del
+
+	end
+	IF @transaction_type = 'U'
+	begin
+		select @lastinst = max(T0.LogInst) - 1 from [@AFT_SPLAN1] T1 inner join [@AFT_SPLAN] T0 on T0.DocEntry = T1.DocEntry and T0.LogInst = T1.LogInst 
+		where T0.DocEntry = @list_of_cols_val_tab_del
+
+		update T0
+		set U_SPLANQTY = isnull(U_SPLANQTY,0) - T1.U_QUANTITY
+		from RDR1 T0 inner join (select sum(T01.U_QUANTITY) as U_QUANTITY, sum(T01.U_ORIQTY) as U_ORIQTY, T01.DocEntry, T01.U_BASEENT, T01.U_BASELINE, T01.U_BASEOBJ from [@AFT_SPLAN1] T01 
+		where T01.LogInst = @lastinst
+		group by T01.DocEntry, T01.U_BASEENT, T01.U_BASELINE, T01.U_BASEOBJ) T1 
+		on T0.DocEntry = T1.U_BASEENT and T0.LineNum = T1.U_BASELINE and T0.ObjType = T1.U_BASEOBJ
+		where T1.DocEntry = @list_of_cols_val_tab_del
+
+
+		update T0
+		set U_SPLANQTY = isnull(U_SPLANQTY,0) - T1.U_QUANTITY
+		from INV1 T0 inner join (select sum(T01.U_QUANTITY) as U_QUANTITY, sum(T01.U_ORIQTY) as U_ORIQTY, T01.DocEntry, T01.U_BASEENT, T01.U_BASELINE, T01.U_BASEOBJ from [@AFT_SPLAN1] T01 
+		where T01.LogInst = @lastinst
+		group by T01.DocEntry, T01.U_BASEENT, T01.U_BASELINE, T01.U_BASEOBJ) T1 
+		on T0.DocEntry = T1.U_BASEENT and T0.LineNum = T1.U_BASELINE and T0.ObjType = T1.U_BASEOBJ
+		where T1.DocEntry = @list_of_cols_val_tab_del
+
+	end
+	IF @transaction_type = 'C'
+	begin
+		update T0
+		set U_SPLANQTY = isnull(U_SPLANQTY,0) - T1.U_QUANTITY + T1.U_TPQTY
+		from RDR1 T0 inner join (select sum(T01.U_QUANTITY) as U_QUANTITY, sum(T01.U_TPQTY) as U_TPQTY, T01.DocEntry, T01.U_BASEENT, T01.U_BASELINE, T01.U_BASEOBJ from [@FT_SPLAN1] T01 group by T01.DocEntry, T01.U_BASEENT, T01.U_BASELINE, T01.U_BASEOBJ) T1 
+		on T0.DocEntry = T1.U_BASEENT and T0.LineNum = T1.U_BASELINE and T0.ObjType = T1.U_BASEOBJ
+		inner join [@FT_SPLAN] T2 on T1.DocEntry = T2.DocEntry
+		where T2.DocEntry = @list_of_cols_val_tab_del
+
+		update T0
+		set U_SPLANQTY = isnull(U_SPLANQTY,0) - T1.U_QUANTITY + T1.U_TPQTY
+		from INV1 T0 inner join (select sum(T01.U_QUANTITY) as U_QUANTITY, sum(T01.U_TPQTY) as U_TPQTY, T01.DocEntry, T01.U_BASEENT, T01.U_BASELINE, T01.U_BASEOBJ from [@FT_SPLAN1] T01 group by T01.DocEntry, T01.U_BASEENT, T01.U_BASELINE, T01.U_BASEOBJ) T1 
+		on T0.DocEntry = T1.U_BASEENT and T0.LineNum = T1.U_BASELINE and T0.ObjType = T1.U_BASEOBJ
+		inner join [@FT_SPLAN] T2 on T1.DocEntry = T2.DocEntry
+		where T2.DocEntry = @list_of_cols_val_tab_del
+	end
+
+end
+
+-- transport planning
+if @object_type = 'FT_TPPLAN'
+begin
+	IF @transaction_type in ('A', 'U')
+	begin
+		update T0
+		set U_TPQTY = isnull(U_TPQTY,0) + T1.U_QUANTITY
+		from [@FT_SPLAN1] T0 inner join (select sum(T01.U_QUANTITY) as U_QUANTITY, sum(T01.U_ORIQTY) as U_ORIQTY, T01.DocEntry, T01.U_BASEENT, T01.U_BASELINE, T01.U_BASEOBJ from [@FT_TPPLAN1] T01 group by T01.DocEntry, T01.U_BASEENT, T01.U_BASELINE, T01.U_BASEOBJ) T1 
+		on T0.DocEntry = T1.U_BASEENT and T0.LineId = T1.U_BASELINE and T0.Object = T1.U_BASEOBJ
+		inner join [@FT_TPPLAN] T2 on T1.DocEntry = T2.DocEntry
+		where T2.DocEntry = @list_of_cols_val_tab_del
+
+	end
+	IF @transaction_type = 'U'
+	begin
+		select @lastinst = max(T0.LogInst) - 1 from [@AFT_TPPLAN1] T1 inner join [@AFT_TPPLAN] T0 on T0.DocEntry = T1.DocEntry and T0.LogInst = T1.LogInst 
+		where T0.DocEntry = @list_of_cols_val_tab_del
+
+		update T0
+		set U_TPQTY = isnull(U_TPQTY,0) - T1.U_QUANTITY
+		from [@FT_SPLAN1] T0 inner join (select sum(T01.U_QUANTITY) as U_QUANTITY, sum(T01.U_ORIQTY) as U_ORIQTY, T01.DocEntry, T01.U_BASEENT, T01.U_BASELINE, T01.U_BASEOBJ from [@AFT_TPPLAN1] T01 
+		where T01.LogInst = @lastinst
+		group by T01.DocEntry, T01.U_BASEENT, T01.U_BASELINE, T01.U_BASEOBJ) T1 
+		on T0.DocEntry = T1.U_BASEENT and T0.LineId = T1.U_BASELINE and T0.Object = T1.U_BASEOBJ
+		where T1.DocEntry = @list_of_cols_val_tab_del
+
+
+
+	end
+	IF @transaction_type = 'C'
+	begin
+		update T0
+		set U_TPQTY = isnull(U_TPQTY,0) - T1.U_QUANTITY + T1.U_CMQTY
+		from [@FT_SPLAN1] T0 inner join (select sum(T01.U_QUANTITY) as U_QUANTITY, sum(T01.U_CMQTY) as U_CMQTY, T01.DocEntry, T01.U_BASEENT, T01.U_BASELINE, T01.U_BASEOBJ from [@FT_TPPLAN1] T01 group by T01.DocEntry, T01.U_BASEENT, T01.U_BASELINE, T01.U_BASEOBJ) T1 
+		on T0.DocEntry = T1.U_BASEENT and T0.LineId = T1.U_BASELINE and T0.Object = T1.U_BASEOBJ
+		inner join [@FT_TPPLAN] T2 on T1.DocEntry = T2.DocEntry
+		where T2.DocEntry = @list_of_cols_val_tab_del
+
+	end
+
+end
+
+-- charge module
+if @object_type = 'FT_CHARGE'
+begin
+	IF @transaction_type in ('A', 'U')
+	begin
+		update T0
+		set U_CMQTY = isnull(U_CMQTY,0) + T1.U_QUANTITY
+		from [@FT_TPPLAN1] T0 inner join (select sum(T01.U_QUANTITY) as U_QUANTITY, sum(T01.U_ORIQTY) as U_ORIQTY, T01.DocEntry, T01.U_BASEENT, T01.U_BASELINE, T01.U_BASEOBJ from [@FT_CHARGE1] T01 group by T01.DocEntry, T01.U_BASEENT, T01.U_BASELINE, T01.U_BASEOBJ) T1 
+		on T0.DocEntry = T1.U_BASEENT and T0.LineId = T1.U_BASELINE and T0.Object = T1.U_BASEOBJ
+		inner join [@FT_CHARGE] T2 on T1.DocEntry = T2.DocEntry
+		where T2.DocEntry = @list_of_cols_val_tab_del
+
+
+	end
+	IF @transaction_type = 'U'
+	begin
+		select @lastinst = max(T0.LogInst) - 1 from [@AFT_CHARGE1] T1 inner join [@AFT_CHARGE] T0 on T0.DocEntry = T1.DocEntry and T0.LogInst = T1.LogInst 
+		where T0.DocEntry = @list_of_cols_val_tab_del
+
+		update T0
+		set U_CMQTY = isnull(U_CMQTY,0) - T1.U_QUANTITY
+		from [@FT_TPPLAN1] T0 inner join (select sum(T01.U_QUANTITY) as U_QUANTITY, sum(T01.U_ORIQTY) as U_ORIQTY, T01.DocEntry, T01.U_BASEENT, T01.U_BASELINE, T01.U_BASEOBJ from [@AFT_CHARGE1] T01 
+		where T01.LogInst = @lastinst
+		group by T01.DocEntry, T01.U_BASEENT, T01.U_BASELINE, T01.U_BASEOBJ) T1 
+		on T0.DocEntry = T1.U_BASEENT and T0.LineId = T1.U_BASELINE and T0.Object = T1.U_BASEOBJ
+		where T1.DocEntry = @list_of_cols_val_tab_del
+
+
+	end
+	IF @transaction_type = 'C'
+	begin
+		update T0
+		set U_CMQTY = isnull(U_CMQTY,0) - T1.U_QUANTITY
+		from [@FT_TPPLAN1] T0 inner join (select sum(T01.U_QUANTITY) as U_QUANTITY, T01.DocEntry, T01.U_BASEENT, T01.U_BASELINE, T01.U_BASEOBJ from [@FT_CHARGE1] T01 group by T01.DocEntry, T01.U_BASEENT, T01.U_BASELINE, T01.U_BASEOBJ) T1 
+		on T0.DocEntry = T1.U_BASEENT and T0.LineId = T1.U_BASELINE and T0.Object = T1.U_BASEOBJ
+		inner join [@FT_CHARGE] T2 on T1.DocEntry = T2.DocEntry
+		where T2.DocEntry = @list_of_cols_val_tab_del
+
+	end
+
+end
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+-- Select the return values
+select @error, @error_message
+
+end

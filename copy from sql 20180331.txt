@@ -1,0 +1,7 @@
+
+declare @sql nvarchar(max)
+set @sql = 'select T0.U_Area as U_AREA, T0.U_DateFrom as DateFrom, T0.U_Price_MT as U_APRICE from [@TRANSPORTER_AREA_D] T0 inner join [@TRANSPORTER_AREA] T1 on T0.Code = T1.Code and T0.U_Price_MT > 0 and isnull(T0.U_EXPIRED,$[N]) = $[N] inner join [@TRANSPORTER] T2 on T1.U_Transporter = T2.Code and isnull(T2.U_Blacklist,$[N]) = $[N] where T2.Code = $[@FT_TPPLAN.U_TPCODE] and ($[@FT_TPPLAN.U_AREA] = $[] or T0.U_Area like $[@FT_TPPLAN.U_AREA])'
+insert into [@FT_SPCFSQL]
+( Code, Name, U_UDO, U_Header, U_HColumn, U_Btn, U_BtnName, U_BtnSQL )
+values
+( '011', 'Transport Planning Hdr 2', 'FT_TPPLAN', 'Y', 'U_AREA', 'C_AREA', 'Copy Area Price', @sql )

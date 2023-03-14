@@ -1,0 +1,40 @@
+insert into [@area]
+select U_area, U_area, '', '' from [@TRANSPORTER_AREA_D] where U_Area is not null
+and len(U_area) > 0
+group by U_Area
+
+insert into [@COUNTRY]
+select Code, Name 
+from OCRY
+
+update ORDR set U_APPROVAL = 'N'
+update [@FT_TPPLAN] set U_APPROVAL = 'N'
+
+
+declare @sql nvarchar(max)
+set @sql = 'select T0.DocEntry, T0.ObjType, T0.DocNum, T0.DocDate, case T0.U_APPROVAL when $[P] then $[Pending] when $[A] then $[Approved] else $[Reject] end as U_APPROVAL, T0.U_APPRE, T0.U_APPBY, T0.U_APPDATE, T0.U_APPTIME from ORDR T0 inner join (select DocEntry, sum(isnull(U_SPLANQTY,0)) as U_SPLANQTY from RDR1 group by DocEntry) T1 on T0.DocEntry = T1.DocEntry and T1.U_SPLANQTY = 0 where T0.DocStatus = $[O] and T0.U_SPLAN = $[Y] and T0.U_APPROVAL = $[.status] order by T0.DocNum'
+
+insert into [@FT_APPSQL]
+(code, name, U_AppSQL)
+values
+('17', 'Sales Order', @sql)
+
+
+set @sql = 'select T0.DocEntry, T0.Object, T0.DocNum, T0.U_DocDate, case T0.U_APPROVAL when $[P] then $[Pending] when $[A] then $[Approved] else $[Reject] end as U_APPROVAL, T0.U_APPRE, T0.U_APPBY, T0.U_APPDATE, T0.U_APPTIME from [@FT_TPPLAN] T0 where T0.U_APPROVAL = $[.status] and T0.Status = $[O] order by T0.DocNum'
+
+insert into [@FT_APPSQL]
+(code, name, U_AppSQL)
+values
+('FT_TPPLAN', 'Transport Planning', @sql)
+
+
+set @sql = 'select T0.DocEntry, 112 as ObjType, T0.DocNum, T0.DocDate, case T0.U_APPROVAL when $[P] then $[Pending] when $[A] then $[Approved] else $[Reject] end as U_APPROVAL, T0.U_APPRE, T0.U_APPBY, T0.U_APPDATE, T0.U_APPTIME from ODRF T0 inner join (select DocEntry, sum(isnull(U_SPLANQTY,0)) as U_SPLANQTY from DRF1 group by DocEntry) T1 on T0.DocEntry = T1.DocEntry and T1.U_SPLANQTY = 0 where T0.DocStatus = $[O] and T0.U_SPLAN = $[Y] and T0.U_APPROVAL = $[.status] and T0.ObjType = 17 and T0.DocStatus = 'O' order by T0.DocNum'
+
+insert into [@FT_APPSQL]
+(code, name, U_AppSQL)
+values
+('112', 'Draft Sales Order', @sql)
+
+set transport_area_d u_area link to [@area]
+set [@area] u_country link to [@country]
+set [@area] u_region link to [@region]

@@ -1,0 +1,12 @@
+update [@FT_SPLAN1] set U_LSTATUS = 'O'
+update [@FT_TPPLAN1] set U_LSTATUS = 'O'
+update [@FT_CHARGE1] set U_LSTATUS = 'O'
+update [@FT_SPLAN] set U_RELEASE = 'Y'
+
+
+
+insert into [@FT_CFSDL]
+(Code, LineId, Object, U_CNAME, U_NONEDIT, U_NONVIEW)
+select T0.Code, max(T1.LineId) + 1, 'FT_CFS', 'U_LSTATUS', 1, 0
+from [@FT_CFS] T0 inner join [@FT_CFSDL] T1 on T0.Code = T1.Code
+group by T0.Code
