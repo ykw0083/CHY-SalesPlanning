@@ -3167,20 +3167,38 @@ namespace FT_ADDON.CHY
                                 dr["OriItemCode"] = rs1.Fields.Item("U_SOITEMCO").Value.ToString();
                                 dr["LineId"] = rs1.Fields.Item("LineId").Value.ToString();
                                 dr["ProductGroup"] = rs.Fields.Item("productgroup").Value.ToString();
-                                //ykw 20180421
-                                if (rs.Fields.Item("AvgPrice").Value.ToString() == "0")
-                                {
-                                    rs.DoQuery("select * from oitm where itemcode='" + rs1.Fields.Item("U_ITEMCODE").Value.ToString() + "' ");
-                                    if (rs.RecordCount > 0)
-                                    {
-                                        dr["OriItemCost"] = rs.Fields.Item("AvgPrice").Value.ToString();
-                                    }
-                                }
-                                else
-                                    dr["OriItemCost"] = rs.Fields.Item("AvgPrice").Value.ToString();
-                                //ykw 20180421
                                 dr["Quantity"] = rs1.Fields.Item("U_QUANTITY").Value.ToString();
-                                rs.DoQuery("select * from oitm where itemcode='" + rs1.Fields.Item("U_ITEMCODE").Value.ToString() + "' ");
+                                //rs.DoQuery("select * from oitm where itemcode='" + rs1.Fields.Item("U_ITEMCODE").Value.ToString() + "' ");
+                                //ykw 20180421
+                                //if (rs.Fields.Item("AvgPrice").Value.ToString() == "0")
+                                //{
+                                //    rs.DoQuery("select * from oitm where itemcode='" + rs1.Fields.Item("U_ITEMCODE").Value.ToString() + "' ");
+                                //    if (rs.RecordCount > 0)
+                                //    {
+                                //        dr["OriItemCost"] = rs.Fields.Item("AvgPrice").Value.ToString();
+                                //    }
+                                //}
+                                //else
+                                //    dr["OriItemCost"] = rs.Fields.Item("AvgPrice").Value.ToString();
+                                //rs.DoQuery("select * from OITM where itemcode='" + rs1.Fields.Item("U_ITEMCODE").Value.ToString() + "' ");
+                                //ykw 20180421
+                                //ykw 20230316
+                                rs.DoQuery("select * from OITW where itemcode='" + rs1.Fields.Item("U_SOITEMCO").Value.ToString() + "' and whscode = '" + rs1.Fields.Item("U_WHSCODE").Value.ToString()  + "'");
+                                if (rs.RecordCount > 0)
+                                {
+                                    if (rs.Fields.Item("AvgPrice").Value.ToString() == "0")
+                                    {
+                                        rs.DoQuery("select * from OITW where itemcode='" + rs1.Fields.Item("U_ITEMCODE").Value.ToString() + "' and whscode = '" + rs1.Fields.Item("U_WHSCODE").Value.ToString() + "'");
+                                        if (rs.RecordCount > 0)
+                                        {
+                                            dr["OriItemCost"] = rs.Fields.Item("AvgPrice").Value.ToString();
+                                        }
+                                    }
+                                    else
+                                        dr["OriItemCost"] = rs.Fields.Item("AvgPrice").Value.ToString();
+                                }
+                                rs.DoQuery("select * from OITW where itemcode='" + rs1.Fields.Item("U_ITEMCODE").Value.ToString() + "' and whscode = '" + rs1.Fields.Item("U_WHSCODE").Value.ToString() + "'");
+                                //ykw 20230316
                                 if (rs.RecordCount > 0)
                                 {
                                     dr["RevItemCode"] = rs1.Fields.Item("U_ITEMCODE").Value.ToString();
@@ -3307,24 +3325,41 @@ namespace FT_ADDON.CHY
                                 oReceipt.Lines.Add();
                                 oReceipt.Lines.SetCurrentLine(cnt);
                             }
-                            rs.DoQuery("select * from oitm where itemcode='" + rs1.Fields.Item("U_SOITEMCO").Value.ToString() + "' ");
 
                             oReceipt.Lines.ItemCode = rs1.Fields.Item("U_SOITEMCO").Value.ToString();
                             oReceipt.Lines.ItemDescription = rs1.Fields.Item("U_SOITEMNA").Value.ToString();
                             oReceipt.Lines.Quantity = double.Parse(rs1.Fields.Item("U_QUANTITY").Value.ToString());
                             oReceipt.Lines.WarehouseCode = rs1.Fields.Item("U_WHSCODE").Value.ToString();
+                            //rs.DoQuery("select * from oitm where itemcode='" + rs1.Fields.Item("U_SOITEMCO").Value.ToString() + "' ");
                             //ykw 20180421
-                            if (rs.Fields.Item("AvgPrice").Value.ToString() == "0")
+                            //if (rs.Fields.Item("AvgPrice").Value.ToString() == "0")
+                            //{
+                            //    rs.DoQuery("select * from oitm where itemcode='" + rs1.Fields.Item("U_ITEMCODE").Value.ToString() + "' ");
+                            //    if (rs.RecordCount > 0)
+                            //    {
+                            //        oReceipt.Lines.UnitPrice = double.Parse(rs.Fields.Item("AvgPrice").Value.ToString());
+                            //    }
+                            //}
+                            //else
+                            //    oReceipt.Lines.UnitPrice = double.Parse(rs.Fields.Item("AvgPrice").Value.ToString());
+                            //ykw 20180421
+
+                            //ykw 20230316
+                            rs.DoQuery("select * from OITW where itemcode='" + rs1.Fields.Item("U_SOITEMCO").Value.ToString() + "' and whscode = '" + rs1.Fields.Item("U_WHSCODE").Value.ToString() + "'");
+                            if (rs.RecordCount > 0)
                             {
-                                rs.DoQuery("select * from oitm where itemcode='" + rs1.Fields.Item("U_ITEMCODE").Value.ToString() + "' ");
-                                if (rs.RecordCount > 0)
+                                if (rs.Fields.Item("AvgPrice").Value.ToString() == "0")
                                 {
-                                    oReceipt.Lines.UnitPrice = double.Parse(rs.Fields.Item("AvgPrice").Value.ToString());
+                                    rs.DoQuery("select * from OITW where itemcode='" + rs1.Fields.Item("U_ITEMCODE").Value.ToString() + "' and whscode = '" + rs1.Fields.Item("U_WHSCODE").Value.ToString() + "'");
+                                    if (rs.RecordCount > 0)
+                                    {
+                                        oReceipt.Lines.UnitPrice = double.Parse(rs.Fields.Item("AvgPrice").Value.ToString());
+                                    }
                                 }
+                                else
+                                    oReceipt.Lines.UnitPrice = double.Parse(rs.Fields.Item("AvgPrice").Value.ToString());
                             }
-                            else
-                                oReceipt.Lines.UnitPrice = double.Parse(rs.Fields.Item("AvgPrice").Value.ToString());
-                            //ykw 20180421
+                            //ykw 20230316
 
                             rs.DoQuery("select isnull(T2.U_CostCenter,'') as productgroup from oitm T0 inner join oitb T2 on T0.itmsgrpcod = T2.itmsgrpcod where T0.itemcode='" + rs1.Fields.Item("U_SOITEMCO").Value.ToString() + "' ");
                             if (rs.RecordCount > 0)
