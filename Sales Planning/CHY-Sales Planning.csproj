@@ -1,0 +1,515 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AC7B7894-C50A-486F-980E-A7386FF2C638}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FT_ADDON.CHY</RootNamespace>
+    <AssemblyName>Runtime</AssemblyName>
+    <StartupObject>FT_ADDON.CHY.Program</StartupObject>
+    <ApplicationIcon>runtime.ico</ApplicationIcon>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <PublishUrl>http://localhost/Runtime/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Sales Planning\bin\Debug\x86\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Sales Planning\bin\Release\x86\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>Installer\AddOnFiles\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApplicationCommon.cs" />
+    <Compile Include="Sales Planning\CFLAfter.cs" />
+    <Compile Include="Sales Planning\CFLInit.cs" />
+    <Compile Include="Sales Planning\CFLForm.cs" />
+    <Compile Include="Sales Planning\Class1.cs" />
+    <Compile Include="Sales Planning\EmailClass.cs" />
+    <Compile Include="Sales Planning\ft_Functions.cs" />
+    <Compile Include="Sales Planning\MyFromEvent.cs" />
+    <Compile Include="Sales Planning\Sysform_Approval50103.cs" />
+    <Compile Include="Sales Planning\Sysform_ARReservedInvoice.cs" />
+    <Compile Include="Sales Planning\Sysform_SalesQuotation.cs" />
+    <Compile Include="Sales Planning\Sysform_UDF.cs" />
+    <Compile Include="Sales Planning\UserForm_Approval.cs" />
+    <Compile Include="Sales Planning\UserForm_SalesPlanning.cs" />
+    <Compile Include="Sales Planning\UserForm_Batch.cs" />
+    <Compile Include="Sales Planning\UserForm_APSA.cs" />
+    <Compile Include="Sales Planning\UserForm_ShipList.cs" />
+    <Compile Include="Sales Planning\UserForm_ShipDoc.cs" />
+    <Compile Include="Sales Planning\Sysform_APCN.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Sales Planning\Sysform_APDO.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Sales Planning\Sysform_APINV.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Sales Planning\Sysform_APPO.cs" />
+    <Compile Include="Sales Planning\Sysform_APReturn.cs" />
+    <Compile Include="Sales Planning\Sysform_SalesCN.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Sales Planning\Sysform_SalesDelivery.cs" />
+    <Compile Include="Sales Planning\Sysform_SalesInvoice.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Sales Planning\Sysform_SalesReturn.cs" />
+    <Compile Include="Sales Planning\UserForm_CONmodified.cs" />
+    <Compile Include="Sales Planning\Sysform_SalesOrder.cs" />
+    <Compile Include="Sales Planning\UserForm_SOmodified.cs" />
+    <Compile Include="Sales Planning\UserForm_FT_GENSPERR.cs" />
+    <Compile Include="Sales Planning\UserForm_TextModify.cs" />
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sales Planning\_InitializeEnvironment.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Sales Planning\InitForm.cs" />
+    <Compile Include="Sales Planning\ItemEvent.cs" />
+    <Compile Include="Sales Planning\MenuEvent.cs" />
+    <Compile Include="Sales Planning\Program.cs" />
+    <Compile Include="ObjectFunctions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="SAP.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="APPROVAL2.srf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="BATCHNO.srf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CFL.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="FT_CHARGE.srf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="FT_SPLAN.srf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="FT_TPPLAN.srf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="runtime.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="SAPbobsCOM">
+      <Guid>{FC8030BE-F5D2-4B8E-8F92-44228FE30090}</Guid>
+      <VersionMajor>9</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="SAPbouiCOM">
+      <Guid>{6048236A-956D-498D-A6F1-9C81C13AB6E8}</Guid>
+      <VersionMajor>9</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>::INPUT INFORMATION
+set DEVELOPER=YKW
+
+set PARTNER=Fast Track SBOi Sdn Bhd
+
+set ADDONNAME=$(ProjectName)
+
+set VERSION_FROM=9
+
+set VERSION_TO=10
+set LEGACY=False
+
+if $(ConfigurationName)==Debug (
+    goto :eof
+)
+
+setlocal enabledelayedexpansion
+
+::GENERATE AddOn ard file
+for /F "skip=1 delims=" %25%25F in ('
+    wmic PATH Win32_LocalTime GET Day^,Month^,Year /FORMAT:TABLE
+') do (
+    for /F "tokens=1-3" %25%25L in ("%25%25F") do (
+        set DAY=0%25%25L
+        set MONTH=0%25%25M
+        set YEAR=%25%25N
+    )
+)
+
+set DAY=%25DAY:~-2%25
+set MONTH=%25MONTH:~-2%25
+set YEAR=%25YEAR:~-2%25
+
+for /f "tokens=1-4 delims=:.," %25%25A in ("%25time%25") do (
+        set HOUR=%25%25A
+        set HOUR=!HOUR: =0!
+        set MINUTE=%25%25B
+)
+
+set VERSION=%25YEAR%25.%25MONTH%25.%25DAY%25.%25HOUR%25.%25MINUTE%25
+
+if %25Legacy%25==True (
+	goto :LegacyAddOn
+) else (
+	goto :LightWeightAddOn
+)
+
+:LegacyAddOn
+::GENERATE AddOnInstallInfo.vb
+(
+    echo Option Strict Off
+    echo Option Explicit On
+    echo Namespace AddOnInstaller
+    echo Public Class AddOnInstallInfo
+    echo Public StrAddOnInstallPath As String
+    echo Public AddOnName As String
+    echo Public PartnerName As String
+    echo Public ExeFile As String
+    echo Public DIFile As String
+    echo Public UIFile As String
+    echo Public B1WizardBaseFile As String
+    echo Public ExtraFiles As System.String^(^)
+    echo Public ExtraDirectories As System.String^(^)
+    echo Public RestartNeeded As Boolean
+    echo Public Sub New^(^)
+    echo MyBase.New
+    echo AddOnName = "%25ADDONNAME%25"
+    echo PartnerName = "%25PARTNER%25"
+    echo RestartNeeded = False
+    echo ExeFile = "$(TargetFileName)"
+    echo DIFile = "Interop.SAPbobsCOM.dll"
+    echo UIFile = "Interop.SAPbouiCOM.dll"
+) &gt; $(SolutionDir)Installer\AddOnInstallInfo.vb
+
+set FILES
+set DIRS
+set RESFILES
+
+cd "$(SolutionDir)Installer\AddOnFiles"
+
+for /f %25%25k in ('dir /b /a:-d') do (
+    if not %25%25k==Interop.SAPbobsCOM.dll if not %25%25k==Interop.SAPbouiCOM.dll if not %25%25k==$(TargetFileName) if not %25%25k==$(TargetFileName).config if not %25%25k==$(TargetName).pdb (
+        set FILES=!FILES!,"%25%25k"
+        set DIRS=!DIRS!,""
+    )
+    
+    set RESFILES=!RESFILES! /resource:AddOnFiles\%25%25k,AddOnInstaller.%25%25k
+)
+
+for /f %25%25i in ('dir /b /a:d') do ( call :IncludeFilesLegacy %25%25i )
+goto :EndIncludeFilesLegacy
+
+:IncludeFilesLegacy
+for /f %25%25i in ('dir /b /a:-d "%251"') do (
+    set FILES=!FILES!,"%25%25i"
+    set DIRS=!DIRS!,"%251"
+    set RESFILES=!RESFILES! /resource:AddOnFiles\%251\%25%25i,AddOnInstaller.%25%25i
+)
+
+for /f %25%25i in ('dir /b /a:d "%251"') do ( call :IncludeFilesLegacy %251\%25%25i )
+goto :eof
+
+:EndIncludeFilesLegacy
+
+echo ExtraFiles = New String^(^) {"$(TargetFileName).config"%25FILES%25} &gt;&gt; "$(SolutionDir)Installer\AddOnInstallInfo.vb"
+echo ExtraDirectories = New String() {""%25DIRS%25} &gt;&gt; "$(SolutionDir)Installer\AddOnInstallInfo.vb"
+
+(
+    echo End Sub
+    echo End Class
+    echo End Namespace
+) &gt;&gt; $(SolutionDir)Installer\AddOnInstallInfo.vb
+
+
+::COMPILING INSTALLER::
+if exist "$(TargetDir)$(TargetFile).pdb" (
+    del "$(TargetDir)$(TargetFile).pdb"
+)
+
+mkdir "$(SolutionDir)Installer\bin\$(PlatformName)\$(ConfigurationName)"
+
+if exist "$(SolutionDir)Installer\obj\$(ConfigurationName)" (
+    rmdir "$(SolutionDir)Installer\obj\$(ConfigurationName)" /s /q
+)
+
+mkdir "$(SolutionDir)Installer\obj\$(ConfigurationName)"
+
+cd "$(SolutionDir)Installer"
+
+"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\Resgen.exe" /useSourcePath /r:C:\Windows\Microsoft.NET\Framework\v2.0.50727\System.Data.dll /r:C:\Windows\Microsoft.NET\Framework\v2.0.50727\System.dll /r:C:\Windows\Microsoft.NET\Framework\v2.0.50727\System.Drawing.dll /r:C:\Windows\Microsoft.NET\Framework\v2.0.50727\System.Windows.Forms.dll /r:C:\Windows\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll /compile BaseControl.resx,obj\$(ConfigurationName)\AddOnInstaller.AddOnInstaller.BaseControl.resources BaseForm.resx,obj\$(ConfigurationName)\AddOnInstaller.AddOnInstaller.BaseForm.resources InstallEndedControl.resx,obj\$(ConfigurationName)\AddOnInstaller.AddOnInstaller.InstallEndedControl.resources InstallMainControl.resx,obj\$(ConfigurationName)\AddOnInstaller.AddOnInstaller.InstallMainControl.resources InstallPathControl.resx,obj\$(ConfigurationName)\AddOnInstaller.AddOnInstaller.InstallPathControl.resources UnInstallControl.resx,obj\$(ConfigurationName)\AddOnInstaller.AddOnInstaller.UnInstallControl.resources
+
+"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\Roslyn\vbc.exe" /noconfig /baseaddress:11000000 /imports:Microsoft.VisualBasic,System,System.Collections,System.Data,System.Diagnostics,System.Drawing,System.Windows.Forms /optioncompare:Text /optionexplicit+ /optionstrict:custom /nowarn:42016,42017,42018,42019,42032,42353,42354,42355 /optioninfer+ /nostdlib /platform:x86 /removeintchecks- /rootnamespace:AddOnInstaller /sdkpath:C:\Windows\Microsoft.NET\Framework\v2.0.50727 /preferreduilang:en-US /highentropyva- /define:"CONFIG=\"$(ConfigurationName)\",TRACE=-1,_MyType=\"WindowsFormsWithCustomSubMain\",PLATFORM=\"AnyCPU\",Version=\"2005\"" /reference:C:\Windows\Microsoft.NET\Framework\v2.0.50727\System.Data.dll,C:\Windows\Microsoft.NET\Framework\v2.0.50727\System.dll,C:\Windows\Microsoft.NET\Framework\v2.0.50727\System.Drawing.dll,C:\Windows\Microsoft.NET\Framework\v2.0.50727\System.Windows.Forms.dll,C:\Windows\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll /main:AddOnInstaller.AddOnInstaller.BaseForm /debug- /optimize+ /out:"obj\$(ConfigurationName)\%25ADDONNAME%25.exe" /ruleset:"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Team Tools\Static Analysis Tools\Rule Sets\MinimumRecommendedRules.ruleset" /resource:obj\$(ConfigurationName)\AddOnInstaller.AddOnInstaller.BaseControl.resources /resource:obj\$(ConfigurationName)\AddOnInstaller.AddOnInstaller.BaseForm.resources /resource:obj\$(ConfigurationName)\AddOnInstaller.AddOnInstaller.InstallEndedControl.resources /resource:obj\$(ConfigurationName)\AddOnInstaller.AddOnInstaller.InstallMainControl.resources /resource:obj\$(ConfigurationName)\AddOnInstaller.AddOnInstaller.InstallPathControl.resources /resource:obj\$(ConfigurationName)\AddOnInstaller.AddOnInstaller.UnInstallControl.resources ^
+%25RESFILES%25 ^
+/target:winexe /warnaserror- /utf8output AddOnInstallInfo.vb AddOnInstallManager.vb AssemblyInfo.vb BaseControl.vb BaseForm.vb InstallEndedControl.vb InstallMainControl.vb InstallPathControl.vb UnInstallControl.vb
+
+copy "obj\$(ConfigurationName)\%25ADDONNAME%25.exe" "$(SolutionDir)Installer\bin\$(PlatformName)\$(ConfigurationName)\%25ADDONNAME%25.exe"
+
+::GENERATE ADD-ON XML FILE::
+del "$(SolutionDir)Installer\AddOnRegDataGenFile\*.xml"
+
+if "$(PlatformName)"=="x64" (
+    set PLATFORM=X
+) else (
+    set PLATFORM=N
+)
+
+echo ^&lt;AddOnInfo partnernmsp="FT_ADDON" contdata="%25DEVELOPER%25" addonname="%25ADDONNAME%25" addongroup="M" esttime="60" instparams="" uncmdarg="/x" partnername="%25PARTNER%25" platform="%25PLATFORM%25" unesttime="60" /^&gt; &gt; "$(SolutionDir)Installer\AddOnRegDataGenFile\%25ADDONNAME%25.xml"
+
+"C:\Program Files (x86)\SAP\SAP Business One SDK\Tools\AddOnRegDataGen\AddOnRegDataGen.exe" "$(SolutionDir)Installer\AddOnRegDataGenFile\%25ADDONNAME%25.xml" "%25VERSION%25" "$(SolutionDir)Installer\bin\$(PlatformName)\$(ConfigurationName)\%25ADDONNAME%25.exe" "$(SolutionDir)Installer\bin\$(PlatformName)\$(ConfigurationName)\%25ADDONNAME%25.exe" "$(TargetPath)"
+
+::PACK ADD-ON IN RAR FILE::
+set PF=%25PROGRAMFILES(x86)%25
+set PF=%25PF:~0,-6%25
+cd "bin\$(PlatformName)\$(ConfigurationName)"
+
+if exist "%25PF%25\WinRAR\Rar.exe" (
+    "%25PF%25\WinRAR\Rar.exe" a -r "%25ADDONNAME%25 - %25VERSION%25.rar" "*.ard" "*.exe"
+)
+
+if exist "%25PROGRAMFILES(x86)%25\WinRAR\Rar.exe" (
+    "%25PROGRAMFILES(x86)%25\WinRAR\Rar.exe" a -r "%25ADDONNAME%25 - %25VERSION%25.rar" "*.ard" "*.exe"
+)
+
+start "" ""
+goto :eof
+
+:LightWeightAddOn
+set INSTALLPATH=$(ProjectDir)Installer
+set ARDFILE=%25INSTALLPATH%25\AddOnRegDataGenFile\%25ADDONNAME%25.ard
+mkdir "%25INSTALLPATH%25\AddOnRegDataGenFile"
+
+(
+    echo ^&lt;?xml version^="1.0" encoding^="utf-8"?^&gt;
+    echo ^&lt;AddOnRegData xmlns:xsi^="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd^="http://www.w3.org/2001/XMLSchema" SlientInstallation^="No" SlientUpgrade^="No" Partnernmsp^="FT" SchemaVersion^="3.0" Type^="" MultipleVersion^="false" OnDemand^="" OnPremise^="" ExtName^="%25ADDONNAME%25" ExtVersion^="%25VERSION%25" Contdata^="%25DEVELOPER%25" Partner^="%25PARTNER%25" DBType^="Both" ClientType^="W"^&gt;
+    echo ^&lt;Validity^&gt;^&lt;SBOCompatibility^&gt;^&lt;Version From^="%25VERSION_FROM%25" To^="%25VERSION_TO%25" /^&gt;^&lt;/SBOCompatibility^&gt;^&lt;/Validity^&gt;^&lt;Configuration^&gt;^&lt;Repository^&gt;^&lt;Properties /^&gt;^&lt;/Repository^&gt;^&lt;Deployment^&gt;^&lt;Properties /^&gt;^&lt;/Deployment^&gt;^&lt;Assignment^&gt;^&lt;Properties /^&gt;^&lt;/Assignment^&gt;^&lt;/Configuration^&gt;^&lt;Addons^&gt;^&lt;Addon Name^="" Group^="" ForceFlag^="" Visible^="" AutoAssign^="" SelfUpgrd^=""^&gt;
+) ^&gt; "%25ARDFILE%25"
+
+if "$(PlatformName)"=="x64" (
+    (
+        echo ^&lt;x86 AddonExe^="" AddonSig^=""^&gt;^&lt;Installation^&gt;^&lt;Files /^&gt;^&lt;/Installation^&gt;^&lt;Uninstallation^&gt;^&lt;Files /^&gt;^&lt;/Uninstallation^&gt;^&lt;/x86^&gt;
+        echo ^&lt;x64 AddonExe^="$(TargetPath)" AddonSig^=""^&gt;^&lt;Installation^&gt;^&lt;Files^&gt;
+    ) &gt;&gt; "%25ARDFILE%25"
+) else (
+    (
+        echo ^&lt;x64 AddonExe^="" AddonSig^=""^&gt;^&lt;Installation^&gt;^&lt;Files /^&gt;^&lt;/Installation^&gt;^&lt;Uninstallation^&gt;^&lt;Files /^&gt;^&lt;/Uninstallation^&gt;^&lt;/x64^&gt;
+        echo ^&lt;x86 AddonExe^="$(TargetPath)" AddonSig^=""^&gt;^&lt;Installation^&gt;^&lt;Files^&gt;
+    ) &gt;&gt; "%25ARDFILE%25"
+)
+
+call :IncludeAllFiles
+
+(
+    echo ^&lt;/Files^&gt;^&lt;/Installation^&gt;^&lt;Uninstallation^&gt;^&lt;Files^&gt;
+) &gt;&gt; "%25ARDFILE%25"
+
+call :IncludeAllFiles
+
+if "$(PlatformName)"=="x64" (
+    (
+        echo ^&lt;/Files^&gt;^&lt;/Uninstallation^&gt;^&lt;/x64^&gt;^&lt;/Addon^&gt;^&lt;/Addons^&gt;^&lt;XApps^&gt;^&lt;XApp Name="" Path="" FileName="" /^&gt;^&lt;/XApps^&gt;^&lt;UDQs^&gt;^&lt;UDQ udqname=""^&gt;^&lt;Hana FileName="" /^&gt;^&lt;/UDQ^&gt;^&lt;/UDQs^&gt;^&lt;/AddOnRegData^&gt;
+    ) &gt;&gt; "%25ARDFILE%25"
+) else (
+    (
+        echo ^&lt;/Files^&gt;^&lt;/Uninstallation^&gt;^&lt;/x86^&gt;^&lt;/Addon^&gt;^&lt;/Addons^&gt;^&lt;XApps^&gt;^&lt;XApp Name="" Path="" FileName="" /^&gt;^&lt;/XApps^&gt;^&lt;UDQs^&gt;^&lt;UDQ udqname=""^&gt;^&lt;Hana FileName="" /^&gt;^&lt;/UDQ^&gt;^&lt;/UDQs^&gt;^&lt;/AddOnRegData^&gt;
+    ) &gt;&gt; "%25ARDFILE%25"
+)
+
+goto :EndIncludeFiles
+
+:IncludeAllFiles
+for /f %25%25k in ('dir /b /a:-d') do (
+	if not "%25%25k"=="$(TargetName).pdb" (
+		(
+            echo ^&lt;File FileName^="%25%25k"^&gt;^&lt;Actions /^&gt;^&lt;/File^&gt;
+        ) &gt;&gt; "%25ARDFILE%25"
+	)
+)
+
+for /f %25%25i in ('dir /b /a:d') do ( call :IncludeFiles %25%25i )
+goto :eof
+
+:IncludeFiles
+for /f %25%25i in ('dir /b /a:-d "%251"') do (
+    (
+        echo ^&lt;File FileName^="%251\%25%25i"^&gt;^&lt;Actions /^&gt;^&lt;/File^&gt;
+    ) &gt;&gt; "%25ARDFILE%25"
+)
+
+for /f %25%25i in ('dir /b /a:d "%251"') do ( call :IncludeFiles %251\%25%25i )
+goto :eof
+
+:EndIncludeFiles
+
+if "$(PlatformName)"=="x64" (
+    set PACKDIR=%25INSTALLPATH%25\bin\x64\$(ConfigurationName)
+    mkdir "!PACKDIR!"
+    "C:\Program Files (x86)\sap\SAP Business One SDK\Tools\ExtensionPackage\ExtensionPackage.exe" /64:"$(TargetPath)" /p:"!PACKDIR!\%25ADDONNAME%25.zip" /s:"%25ARDFILE%25"
+) else (
+    set PACKDIR=%25INSTALLPATH%25\bin\x86\$(ConfigurationName)
+    mkdir "!PACKDIR!"
+    "C:\Program Files (x86)\sap\SAP Business One SDK\Tools\ExtensionPackage\ExtensionPackage.exe" /86:"$(TargetPath)" /p:"!PACKDIR!\%25ADDONNAME%25.zip" /s:"%25ARDFILE%25"
+)
+
+cd "!PACKDIR!"
+ren "%25ADDONNAME%25.zip" "%25ADDONNAME%25 - %25VERSION%25.zip"
+start "" ""</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+if $(ConfigurationName)==Debug (
+	goto :eof
+)
+
+rmdir "$(ProjectDir)Installer\AddOnFiles" /s /q
+rmdir "$(ProjectDir)Properties\AddOnName" /s /q
+mkdir "$(ProjectDir)Properties\AddOnName\$(ProjectName)"
+</PreBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

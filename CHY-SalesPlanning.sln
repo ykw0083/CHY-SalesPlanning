@@ -3,30 +3,30 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30517.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "CHYAddonInstaller", "AYSAddonInstaller\AYSAddonInstaller\AYSAddonInstaller\CHYAddonInstaller.vbproj", "{B30CD76C-0AAA-4A62-A8CE-E1C4134341D1}"
-EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "CHYTestInstaller", "AYSTestInstaller\AYSTestInstaller\AYSTestInstaller\CHYTestInstaller.vbproj", "{6FF0E1C6-066E-4914-B1FD-B7BB8374B733}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CHY Sales Planning", "Sales Planning\CHY Sales Planning.csproj", "{AC7B7894-C50A-486F-980E-A7386FF2C638}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CHY-Sales Planning", "Sales Planning\CHY-Sales Planning.csproj", "{AC7B7894-C50A-486F-980E-A7386FF2C638}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B30CD76C-0AAA-4A62-A8CE-E1C4134341D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B30CD76C-0AAA-4A62-A8CE-E1C4134341D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B30CD76C-0AAA-4A62-A8CE-E1C4134341D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B30CD76C-0AAA-4A62-A8CE-E1C4134341D1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6FF0E1C6-066E-4914-B1FD-B7BB8374B733}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6FF0E1C6-066E-4914-B1FD-B7BB8374B733}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6FF0E1C6-066E-4914-B1FD-B7BB8374B733}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6FF0E1C6-066E-4914-B1FD-B7BB8374B733}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AC7B7894-C50A-486F-980E-A7386FF2C638}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AC7B7894-C50A-486F-980E-A7386FF2C638}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC7B7894-C50A-486F-980E-A7386FF2C638}.Debug|x64.ActiveCfg = Debug|x64
+		{AC7B7894-C50A-486F-980E-A7386FF2C638}.Debug|x64.Build.0 = Debug|x64
+		{AC7B7894-C50A-486F-980E-A7386FF2C638}.Debug|x86.ActiveCfg = Debug|x86
+		{AC7B7894-C50A-486F-980E-A7386FF2C638}.Debug|x86.Build.0 = Debug|x86
 		{AC7B7894-C50A-486F-980E-A7386FF2C638}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC7B7894-C50A-486F-980E-A7386FF2C638}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC7B7894-C50A-486F-980E-A7386FF2C638}.Release|x64.ActiveCfg = Release|x64
+		{AC7B7894-C50A-486F-980E-A7386FF2C638}.Release|x64.Build.0 = Release|x64
+		{AC7B7894-C50A-486F-980E-A7386FF2C638}.Release|x86.ActiveCfg = Release|x86
+		{AC7B7894-C50A-486F-980E-A7386FF2C638}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
