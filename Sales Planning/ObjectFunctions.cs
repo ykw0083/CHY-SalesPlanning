@@ -475,23 +475,30 @@ namespace FT_ADDON
                         rs.DoQuery("SELECT U_CNAME, U_NONVIEW, U_NONEDIT FROM [@FT_CFSDL] WHERE CODE = '" + code + "'");
                         if (rs.RecordCount > 0)
                         {
-                            rs.MoveFirst();
-                            while (!rs.EoF)
+                            try
                             {
-                                colname = rs.Fields.Item(0).Value.ToString();
-                                nonview = int.Parse(rs.Fields.Item(1).Value.ToString());
-                                nonedit = int.Parse(rs.Fields.Item(2).Value.ToString());
-                                if (nonview == 1)
+                                rs.MoveFirst();
+                                while (!rs.EoF)
                                 {
-                                    oColumn = (SAPbouiCOM.Column)oMatrix.Columns.Item(colname);
-                                    oColumn.Visible = false;
+                                    colname = rs.Fields.Item(0).Value.ToString();
+                                    nonview = int.Parse(rs.Fields.Item(1).Value.ToString());
+                                    nonedit = int.Parse(rs.Fields.Item(2).Value.ToString());
+                                    if (nonview == 1)
+                                    {
+                                        oColumn = (SAPbouiCOM.Column)oMatrix.Columns.Item(colname);
+                                        oColumn.Visible = false;
+                                    }
+                                    else if (nonedit == 1)
+                                    {
+                                        oColumn = (SAPbouiCOM.Column)oMatrix.Columns.Item(colname);
+                                        oColumn.Editable = false;
+                                    }
+                                    rs.MoveNext();
                                 }
-                                else if (nonedit == 1)
-                                {
-                                    oColumn = (SAPbouiCOM.Column)oMatrix.Columns.Item(colname);
-                                    oColumn.Editable = false;
-                                }
-                                rs.MoveNext();
+                            }
+                            catch (Exception ex)
+                            {
+                                throw new Exception(colname + ":"  + ex.Message);
                             }
                         }
                     }
